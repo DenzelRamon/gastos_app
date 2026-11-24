@@ -24,9 +24,15 @@ class Validators {
     return null;
   }
 
+  /// Hasta 9 enteros y 2 decimales (coincide con numeric(12,2) y el CHECK
+  /// `amount < 1e9` de Postgres). Rechaza notación científica, NaN e Infinity.
+  static final RegExp _amountRe = RegExp(r'^\d{1,9}(\.\d{1,2})?$');
+
   static String? amount(String? value) {
-    final n = double.tryParse((value ?? '').trim());
-    if (n == null || n <= 0) return 'Ingresa un monto mayor a 0';
+    final v = (value ?? '').trim();
+    if (v.isEmpty) return 'Ingresa un monto';
+    if (!_amountRe.hasMatch(v)) return 'Usa hasta 9 enteros y 2 decimales';
+    if (double.parse(v) <= 0) return 'Ingresa un monto mayor a 0';
     return null;
   }
 

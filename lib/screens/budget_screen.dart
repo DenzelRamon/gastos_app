@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import '../core/formatters.dart';
+import '../core/validators.dart';
 import '../models/budget.dart';
 import '../providers/expense_provider.dart';
 import '../services/budget_alert_service.dart';
@@ -175,7 +176,7 @@ class _BudgetEditorState extends State<_BudgetEditor> {
     if (!_formKey.currentState!.validate()) return;
     final provider = context.read<ExpenseProvider>();
     final nav = Navigator.of(context);
-    final limit = double.parse(_limitCtrl.text.trim());
+    final limit = Validators.parseAmount(_limitCtrl.text);
     final existing = widget.existing;
 
     final budget = existing == null
@@ -211,11 +212,7 @@ class _BudgetEditorState extends State<_BudgetEditor> {
               inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9.]'))],
               decoration: const InputDecoration(
                   labelText: 'Límite', prefixText: '\$ ', border: OutlineInputBorder()),
-              validator: (v) {
-                final n = double.tryParse((v ?? '').trim());
-                if (n == null || n <= 0 || n >= 1e9) return 'Ingresa un límite válido';
-                return null;
-              },
+              validator: Validators.amount,
             ),
             const SizedBox(height: 12),
             DropdownButtonFormField<String?>(

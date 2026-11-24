@@ -130,8 +130,8 @@ docs/                          Revisión del PR #1 y reporte técnico
   vive en Keychain/Keystore, nunca junto a los datos.
 - **Tokens:** la sesión de Supabase se guarda en almacén seguro (`SecureLocalStorage`), no en
   SharedPreferences.
-- **Validación:** todo input pasa por `Validators` (correo, contraseña fuerte, monto positivo,
-  longitudes) y `CHECK` en SQLite y Postgres.
+- **Validación:** todo input pasa por `Validators` (correo, contraseña fuerte, monto con
+  rango y decimales acotados, longitudes) y `CHECK` en SQLite y Postgres.
 - **Aislamiento:** una base SQLite por usuario y RLS en el servidor (`auth.uid() = user_id`).
 - **Privacidad:** notas y tickets no se sincronizan; solo viajan monto, descripción, fecha y categoría.
 - **Autenticación:** mensajes de error genéricos y bloqueo de 30 s tras 5 intentos fallidos.
