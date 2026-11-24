@@ -106,11 +106,18 @@ class DatabaseHelper {
   Future<List<Map<String, Object?>>> unsyncedRows(String table) =>
       db.query(table, where: 'synced = 0');
 
-  Future<void> markSynced(String table, List<String> ids) async {
-    if (ids.isEmpty) return;
+  /// Marca como sincronizadas solo las filas que no cambiaron mientras se
+  /// enviaban (se compara `updated_at`), para no perder ediciones concurrentes.
+  Future<void> markSynced(String table, List<Map<String, Object?>> rows) async {
+    if (rows.isEmpty) return;
     final batch = db.batch();
-    for (final id in ids) {
-      batch.update(table, {'synced': 1}, where: 'id = ?', whereArgs: [id]);
+    for (final r in rows) {
+      batch.update(
+        table,
+        {'synced': 1},
+        where: 'id = ? AND updated_at = ?',
+        whereArgs: [r['id'], r['updated_at']],
+      );
     }
     await batch.commit(noResult: true);
   }
