@@ -7,6 +7,7 @@ import '../core/validators.dart';
 import '../models/budget.dart';
 import '../providers/expense_provider.dart';
 import '../services/budget_alert_service.dart';
+import 'session_bridge.dart';
 
 class BudgetScreen extends StatefulWidget {
   const BudgetScreen({super.key});
@@ -33,7 +34,7 @@ class _BudgetScreenState extends State<BudgetScreen> {
     final saved = await showModalBottomSheet<bool>(
       context: context,
       isScrollControlled: true,
-      builder: (_) => _BudgetEditor(existing: existing),
+      builder: (_) => SessionBridge.wrap(context, _BudgetEditor(existing: existing)),
     );
     if (saved == true) _reload();
   }

@@ -6,6 +6,7 @@ import '../models/expense.dart';
 import '../providers/auth_provider.dart' show ViewState;
 import '../providers/expense_provider.dart';
 import 'expense_form_screen.dart';
+import 'session_bridge.dart';
 
 class ExpenseListScreen extends StatelessWidget {
   const ExpenseListScreen({super.key});
@@ -37,7 +38,7 @@ class ExpenseListScreen extends StatelessWidget {
       body: body,
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => Navigator.of(context).push(
-          MaterialPageRoute<void>(builder: (_) => const ExpenseFormScreen()),
+          MaterialPageRoute<void>(builder: (_) => SessionBridge.wrap(context, const ExpenseFormScreen())),
         ),
         icon: const Icon(Icons.add),
         label: const Text('Gasto'),
@@ -102,7 +103,7 @@ class _ExpenseTile extends StatelessWidget {
         ),
         onTap: () => Navigator.of(context).push(
           MaterialPageRoute<void>(
-              builder: (_) => ExpenseFormScreen(expense: expense)),
+              builder: (_) => SessionBridge.wrap(context, ExpenseFormScreen(expense: expense))),
         ),
       ),
     );
