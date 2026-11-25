@@ -33,7 +33,7 @@ dependencies:
   timezone: ^0.9.4
 
   # Librerías de terceros no vistas en clase
-  intl: ^0.19.0          # formato de moneda y fechas (es_MX)
+  intl: 0.20.3          # formato de moneda y fechas (es_MX)
   fl_chart: ^0.68.0      # gráficos de pastel y barras
   image_picker: ^1.1.2   # cámara para fotografiar tickets
 
