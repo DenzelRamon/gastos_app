@@ -11,3 +11,13 @@ jobs:
       - run: flutter pub get
       - run: flutter analyze --no-fatal-infos
       - run: flutter test
+      - name: Build Android APK
+        run: >
+          flutter build apk --debug
+          --dart-define=SUPABASE_URL=${{ secrets.SUPABASE_URL }}
+          --dart-define=SUPABASE_ANON_KEY=${{ secrets.SUPABASE_ANON_KEY }}
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: gastos-app-debug-apk
+          path: build/app/outputs/flutter-apk/app-debug.apk
