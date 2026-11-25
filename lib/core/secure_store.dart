@@ -25,16 +25,24 @@ class SecureStore {
 /// plano). Con esta clase los tokens se guardan cifrados en el almacén seguro
 /// del sistema operativo.
 class SecureLocalStorage extends LocalStorage {
-  SecureLocalStorage()
-      : super(
-          initialize: () async {},
-          hasAccessToken: () =>
-              SecureStore.instance.contains(supabasePersistSessionKey),
-          accessToken: () =>
-              SecureStore.instance.read(supabasePersistSessionKey),
-          removePersistedSession: () =>
-              SecureStore.instance.delete(supabasePersistSessionKey),
-          persistSession: (String value) =>
-              SecureStore.instance.write(supabasePersistSessionKey, value),
-        );
+  const SecureLocalStorage();
+
+  @override
+  Future<void> initialize() async {}
+
+  @override
+  Future<bool> hasAccessToken() =>
+      SecureStore.instance.contains(supabasePersistSessionKey);
+
+  @override
+  Future<String?> accessToken() =>
+      SecureStore.instance.read(supabasePersistSessionKey);
+
+  @override
+  Future<void> persistSession(String persistSessionString) =>
+      SecureStore.instance.write(supabasePersistSessionKey, persistSessionString);
+
+  @override
+  Future<void> removePersistedSession() =>
+      SecureStore.instance.delete(supabasePersistSessionKey);
 }
