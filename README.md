@@ -32,7 +32,7 @@ locales al llegar al 80 % y sincroniza tus datos con la nube.
 El repositorio contiene el código Dart; las carpetas `android/` e `ios/` se generan con Flutter:
 
 ```bash
-git clone <URL-DE-TU-REPOSITORIO>
+git clone https://github.com/DenzelRamon/gastos_app.git
 cd gastos_app
 flutter create . --platforms=android,ios --project-name gastos_app
 flutter pub get
